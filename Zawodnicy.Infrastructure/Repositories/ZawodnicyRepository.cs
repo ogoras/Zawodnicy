@@ -51,12 +51,12 @@ namespace Zawodnicy.Infrastructure.Repositories
 
         public async Task<Zawodnik> GetAsync(int id)
         {
-            return await Task.FromResult(_zawodnicyMock.FirstOrDefault(x=>x.Id==id));
+            return await Task.FromResult(_appDbContext.Zawodnik.FirstOrDefault(x=>x.Id==id));
         }
 
         public async Task<IEnumerable<Zawodnik>> GetByCountryAsync(string country)
         {
-            return await Task.FromResult(_zawodnicyMock.FindAll(x => x.Kraj == country));
+            return await Task.FromResult(_appDbContext.Zawodnik.Where(x => x.Kraj == country));
         }
 
         public async Task UpdateAsync(Zawodnik z)
