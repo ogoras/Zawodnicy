@@ -12,10 +12,12 @@ namespace Zawodnicy.Infrastructure.Services
     public class ZawodnikService : IZawodnikService
     {
         private readonly IZawodnicyRepository _zawodnicyRepository;
+        private readonly ITrenerzyRepository _trenerzyRepository;
 
-        public ZawodnikService(IZawodnicyRepository zawodnicyRepository)
+        public ZawodnikService(IZawodnicyRepository zawodnicyRepository, ITrenerzyRepository trenerzyRepository)
         {
             _zawodnicyRepository = zawodnicyRepository;
+            _trenerzyRepository = trenerzyRepository;
         }
 
         public async Task<IEnumerable<ZawodnikDTO>> BrowseAll()
@@ -25,7 +27,7 @@ namespace Zawodnicy.Infrastructure.Services
             return z.Select(x => new ZawodnikDTO()
             {
                 Id = x.Id,
-                //IdTrenera = x.Trener.Id,
+                IdTrenera = x.Trener.Id,
                 Imie = x.Imie,
                 Nazwisko = x.Nazwisko,
                 Kraj = x.Kraj,
@@ -42,7 +44,7 @@ namespace Zawodnicy.Infrastructure.Services
             return z.Select(x => new ZawodnikDTO()
             {
                 Id = x.Id,
-                //IdTrenera = x.Trener.Id,
+                IdTrenera = x.Trener.Id,
                 Imie = x.Imie,
                 Nazwisko = x.Nazwisko,
                 Kraj = x.Kraj,
@@ -63,7 +65,7 @@ namespace Zawodnicy.Infrastructure.Services
             return new ZawodnikDTO()
             {
                 Id = z.Id,
-                //IdTrenera = z.Trener.Id,
+                IdTrenera = z.Trener.Id,
                 Imie = z.Imie,
                 Nazwisko = z.Nazwisko,
                 Kraj = z.Kraj,
@@ -78,7 +80,7 @@ namespace Zawodnicy.Infrastructure.Services
             Zawodnik zawodnik = new Zawodnik()
             {
                 Id = z.Id,
-                //IdTrenera = z.Trener.Id,
+                Trener = await _trenerzyRepository.GetAsync(z.IdTrenera),
                 Imie = z.Imie,
                 Nazwisko = z.Nazwisko,
                 Kraj = z.Kraj,
@@ -94,7 +96,7 @@ namespace Zawodnicy.Infrastructure.Services
             Zawodnik zawodnik = new Zawodnik()
             {
                 Id = z.Id,
-                //IdTrenera = z.Trener.Id,
+                Trener = await _trenerzyRepository.GetAsync(z.IdTrenera),
                 Imie = z.Imie,
                 Nazwisko = z.Nazwisko,
                 Kraj = z.Kraj,

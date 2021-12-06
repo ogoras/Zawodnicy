@@ -7,8 +7,15 @@ using Zawodnicy.Core.Repositories;
 
 namespace Zawodnicy.Infrastructure.Repositories
 {
-    class TrenerzyRepository : ITrenerzyRepository
+    public class TrenerzyRepository : ITrenerzyRepository
     {
+        private AppDbContext _appDbContext;
+
+        public TrenerzyRepository(AppDbContext appDbContext)
+        {
+            _appDbContext = appDbContext;
+        }
+
         public Task AddAsync(Trener t)
         {
             throw new NotImplementedException();

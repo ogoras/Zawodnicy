@@ -31,6 +31,9 @@ namespace Zawodnicy.WebAPI
         {
             services.AddControllers();
 
+            services.AddScoped<ITrenerzyRepository, TrenerzyRepository>();
+            services.AddScoped<ITrenerService, TrenerService>();
+
             services.AddScoped<IZawodnicyRepository, ZawodnicyRepository>();
             services.AddScoped<IZawodnikService, ZawodnikService>();
 

@@ -14,7 +14,7 @@ namespace Zawodnicy.Infrastructure.Repositories
         }
 
         public DbSet<Zawodnik> Zawodnik { get; set; }
-        //TODO zrobić to samo dla pozostałych klas
-
+        
+        public DbSet<Trener> Trener { get; set; }
     }
 }
