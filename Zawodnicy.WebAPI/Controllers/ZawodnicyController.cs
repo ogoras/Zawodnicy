@@ -50,7 +50,7 @@ namespace Zawodnicy.WebAPI.Controllers
             ZawodnikDTO z = new ZawodnikDTO()
             {
                 Id = zawodnik.Id,
-                //IdTrenera = zawodnik.Trener.Id,
+                IdTrenera = zawodnik.IdTrenera,
                 Imie = zawodnik.Imie,
                 Nazwisko = zawodnik.Nazwisko,
                 Kraj = zawodnik.Kraj,
@@ -75,7 +75,7 @@ namespace Zawodnicy.WebAPI.Controllers
             ZawodnikDTO z = new ZawodnikDTO()
             {
                 Id = id,
-                //IdTrenera = zawodnik.Trener.Id,
+                IdTrenera = zawodnik.IdTrenera,
                 Imie = zawodnik.Imie != null ? zawodnik.Imie : original_z.Imie,
                 Nazwisko = zawodnik.Nazwisko != null ? zawodnik.Nazwisko : original_z.Nazwisko,
                 Kraj = zawodnik.Kraj != null ? zawodnik.Kraj : original_z.Kraj,

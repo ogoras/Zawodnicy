@@ -6,7 +6,7 @@ namespace Zawodnicy.Infrastructure.Commands
 {
     public class UpdateZawodnik
     {
-        //public int IdTrenera { get; set; }
+        public int IdTrenera { get; set; }
         public string Imie { get; set; }
         public string Nazwisko { get; set; }
         public string Kraj { get; set; }

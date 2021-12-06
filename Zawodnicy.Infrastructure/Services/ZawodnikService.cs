@@ -77,18 +77,26 @@ namespace Zawodnicy.Infrastructure.Services
 
         public async Task CreateZawodnik(ZawodnikDTO z)
         {
-            Zawodnik zawodnik = new Zawodnik()
+            Trener t = await _trenerzyRepository.GetAsync(z.IdTrenera);
+            if (t == null)
             {
-                Id = z.Id,
-                Trener = await _trenerzyRepository.GetAsync(z.IdTrenera),
-                Imie = z.Imie,
-                Nazwisko = z.Nazwisko,
-                Kraj = z.Kraj,
-                DataUr = z.DataUr,
-                Waga = z.Waga,
-                Wzrost = z.Wzrost
-            };
-            await _zawodnicyRepository.AddAsync(zawodnik);
+                throw new ArgumentNullException("Trener o podanym ID nie istnieje!");
+            }
+
+            {
+                Zawodnik zawodnik = new Zawodnik()
+                {
+                    Id = z.Id,
+                    Trener = await _trenerzyRepository.GetAsync(z.IdTrenera),
+                    Imie = z.Imie,
+                    Nazwisko = z.Nazwisko,
+                    Kraj = z.Kraj,  
+                    DataUr = z.DataUr,
+                    Waga = z.Waga,
+                    Wzrost = z.Wzrost
+                };
+                await _zawodnicyRepository.AddAsync(zawodnik);
+            }
         }
 
         public async Task UpdateZawodnik(ZawodnikDTO z)
