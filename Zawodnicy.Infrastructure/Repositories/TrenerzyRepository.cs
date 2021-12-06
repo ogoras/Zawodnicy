@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Zawodnicy.Core.Domain;
@@ -16,29 +17,59 @@ namespace Zawodnicy.Infrastructure.Repositories
             _appDbContext = appDbContext;
         }
 
-        public Task AddAsync(Trener t)
+        public async Task AddAsync(Trener t)
         {
-            throw new NotImplementedException();
+            try
+            {
+                _appDbContext.Trener.Add(t);
+                _appDbContext.SaveChanges();
+                await Task.CompletedTask;
+            }
+            catch (Exception ex)
+            {
+                await Task.FromException(ex);
+            }
         }
 
-        public Task<IEnumerable<Trener>> BrowseAllAsync()
+        public async Task<IEnumerable<Trener>> BrowseAllAsync()
         {
-            throw new NotImplementedException();
+            return await Task.FromResult(_appDbContext.Trener);
         }
 
-        public Task DelAsync(Trener t)
+        public async Task DelAsync(Trener t)
         {
-            throw new NotImplementedException();
+            try
+            {
+                _appDbContext.Remove(_appDbContext.Trener.FirstOrDefault(x => x.Id == z.Id));
+                _appDbContext.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                await Task.FromException(ex);
+            }
         }
 
-        public Task<Trener> GetAsync(int id)
+        public async Task<Trener> GetAsync(int id)
         {
-            throw new NotImplementedException();
+            return await Task.FromResult(_appDbContext.Trener.FirstOrDefault(x => x.Id == id));
         }
 
-        public Task UpdateAsync(Trener t)
+        public async Task UpdateAsync(Trener t)
         {
-            throw new NotImplementedException();
+            try
+            {   
+                var tren = _appDbContext.Trener.FirstOrDefault(x => x.Id == t.Id);
+
+                tren.Imie = t.Imie;
+                tren.Nazwisko = t.Nazwisko;
+                tren.DataUr = t.DataUr;
+
+                _appDbContext.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                await Task.FromException(ex);
+            }
         }
     }
 }
