@@ -40,7 +40,7 @@ namespace Zawodnicy.Infrastructure.Repositories
         {
             try
             {
-                _appDbContext.Remove(_appDbContext.Trener.FirstOrDefault(x => x.Id == z.Id));
+                _appDbContext.Remove(_appDbContext.Trener.FirstOrDefault(x => x.Id == t.Id));
                 _appDbContext.SaveChanges();
             }
             catch (Exception ex)
