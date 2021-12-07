@@ -49,7 +49,6 @@ namespace Zawodnicy.WebAPI.Controllers
         {
             ZawodnikDTO z = new ZawodnikDTO()
             {
-                Id = zawodnik.Id,
                 IdTrenera = zawodnik.IdTrenera,
                 Imie = zawodnik.Imie,
                 Nazwisko = zawodnik.Nazwisko,
