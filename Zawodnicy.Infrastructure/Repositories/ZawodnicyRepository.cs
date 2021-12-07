@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -33,7 +34,7 @@ namespace Zawodnicy.Infrastructure.Repositories
 
         public async Task<IEnumerable<Zawodnik>> BrowseAllAsync()
         {
-            return await Task.FromResult(_appDbContext.Zawodnik);
+            return await Task.FromResult(_appDbContext.Zawodnik.Include(z => z.Trener).ToList());
         }
 
         public async Task DelAsync(Zawodnik z)

@@ -13,6 +13,13 @@ namespace Zawodnicy.Infrastructure.Repositories
 
         }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Zawodnik>()
+                .HasOne(p => p.Trener)
+                .WithMany();
+        }
+
         public DbSet<Zawodnik> Zawodnik { get; set; }
         
         public DbSet<Trener> Trener { get; set; }
