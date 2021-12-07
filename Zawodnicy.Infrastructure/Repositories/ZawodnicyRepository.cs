@@ -52,7 +52,7 @@ namespace Zawodnicy.Infrastructure.Repositories
 
         public async Task<Zawodnik> GetAsync(int id)
         {
-            return await Task.FromResult(_appDbContext.Zawodnik.FirstOrDefault(x=>x.Id==id));
+            return await Task.FromResult(_appDbContext.Zawodnik.Include(z => z.Trener).FirstOrDefault(x=>x.Id==id));
         }
 
         public async Task<IEnumerable<Zawodnik>> GetByCountryAsync(string country)
