@@ -82,7 +82,7 @@ namespace Zawodnicy.WebApp.Controllers
             }
             catch (Exception ex)
             {
-                return View(ex);
+                return View("Error", ex);
             }
             return RedirectToAction(nameof(Index));
         }
@@ -109,7 +109,7 @@ namespace Zawodnicy.WebApp.Controllers
             }
             catch (Exception ex)
             {
-                return View(ex);
+                return View("Error", ex);
             }
             return RedirectToAction(nameof(Index));
         }
