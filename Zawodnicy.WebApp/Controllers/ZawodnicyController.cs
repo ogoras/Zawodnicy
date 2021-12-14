@@ -86,5 +86,32 @@ namespace Zawodnicy.WebApp.Controllers
             }
             return RedirectToAction(nameof(Index));
         }
+
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create(ZawodnikVM z)
+        {
+            string _restpath = GetApiUrl().Content + CN();
+
+            try
+            {
+                using (var httpClient = new HttpClient())
+                {
+                    string zawodnikJson = System.Text.Json.JsonSerializer.Serialize(z);
+                    var content = new StringContent(zawodnikJson, Encoding.UTF8, "application/json");
+
+                    await httpClient.PostAsync($"{_restpath}", content);
+                }
+            }
+            catch (Exception ex)
+            {
+                return View(ex);
+            }
+            return RedirectToAction(nameof(Index));
+        }
     }
 }
