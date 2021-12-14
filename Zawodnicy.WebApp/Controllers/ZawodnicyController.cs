@@ -30,7 +30,7 @@ namespace Zawodnicy.WebApp.Controllers
             return ControllerContext.RouteData.Values["controller"].ToString();
         }
 
-        public async Task<IActionResult> IndexAsync()
+        public async Task<IActionResult> Index()
         {
             string _restpath = GetApiUrl().Content + CN();
             List<ZawodnikVM> zawodnikList = new List<ZawodnikVM>();
@@ -45,6 +45,23 @@ namespace Zawodnicy.WebApp.Controllers
             }
 
             return View(zawodnikList);
+        }
+
+        public async Task<IActionResult> Edit(int id)
+        {
+            string _restpath = GetApiUrl().Content + CN();
+            ZawodnikVM zawodnik = new ZawodnikVM();
+
+            using (var httpClient = new HttpClient())
+            {
+                using (var response = await httpClient.GetAsync($"{_restpath}/{id}"))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    zawodnik = JsonConvert.DeserializeObject<ZawodnikVM>(apiResponse);
+                }
+            }
+
+            return View(zawodnik);
         }
     }
 }
