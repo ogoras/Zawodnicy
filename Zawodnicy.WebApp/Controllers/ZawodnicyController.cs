@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -62,6 +63,28 @@ namespace Zawodnicy.WebApp.Controllers
             }
 
             return View(zawodnik);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(ZawodnikVM z)
+        {
+            string _restpath = GetApiUrl().Content + CN();
+
+            try
+            {
+                using (var httpClient = new HttpClient())
+                {
+                    string zawodnikJson = System.Text.Json.JsonSerializer.Serialize(z);
+                    var content = new StringContent(zawodnikJson, Encoding.UTF8, "application/json");
+
+                    await httpClient.PutAsync($"{_restpath}/{z.Id}", content);
+                }
+            }
+            catch (Exception ex)
+            {
+                return View(ex);
+            }
+            return RedirectToAction(nameof(Index));
         }
     }
 }
