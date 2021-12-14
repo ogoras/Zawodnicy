@@ -113,5 +113,22 @@ namespace Zawodnicy.WebApp.Controllers
             }
             return RedirectToAction(nameof(Index));
         }
+
+        public async Task<IActionResult> Delete(int id)
+        {
+            string _restpath = GetApiUrl().Content + CN();
+            ZawodnikVM zawodnik = new ZawodnikVM();
+
+            using (var httpClient = new HttpClient())
+            {
+                using (var response = await httpClient.GetAsync($"{_restpath}/{id}"))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    zawodnik = JsonConvert.DeserializeObject<ZawodnikVM>(apiResponse);
+                }
+            }
+
+            return View(zawodnik);
+        }
     }
 }
