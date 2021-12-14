@@ -130,5 +130,25 @@ namespace Zawodnicy.WebApp.Controllers
 
             return View(zawodnik);
         }
+
+        [HttpPost]
+        [ActionName("Delete")]
+        public async Task<IActionResult> DeletePost(int id)
+        {
+            string _restpath = GetApiUrl().Content + CN();
+
+            try
+            {
+                using (var httpClient = new HttpClient())
+                {
+                    await httpClient.DeleteAsync($"{_restpath}/{id}");
+                }
+            }
+            catch (Exception ex)
+            {
+                return View("Error", ex);
+            }
+            return RedirectToAction(nameof(Index));
+        }
     }
 }
