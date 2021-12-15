@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -56,16 +57,25 @@ namespace Zawodnicy.WebApp.Controllers
         // POST: TrenerzyController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public async Task<ActionResult> Create(TrenerVM t)
         {
+            string _restpath = GetApiUrl().Content + CN();
+
             try
             {
-                return RedirectToAction(nameof(Index));
+                using (var httpClient = new HttpClient())
+                {
+                    string zawodnikJson = System.Text.Json.JsonSerializer.Serialize(t);
+                    var content = new StringContent(zawodnikJson, Encoding.UTF8, "application/json");
+
+                    await httpClient.PostAsync($"{_restpath}", content);
+                }
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
+                return View("Error", ex);
             }
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: TrenerzyController/Edit/5
