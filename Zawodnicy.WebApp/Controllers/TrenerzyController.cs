@@ -121,24 +121,43 @@ namespace Zawodnicy.WebApp.Controllers
         }
 
         // GET: TrenerzyController/Delete/5
-        public ActionResult Delete(int id)
+        public async Task<ActionResult> Delete(int id)
         {
-            return View();
+            string _restpath = GetApiUrl().Content + CN();
+            TrenerVM t = new TrenerVM();
+
+            using (var httpClient = new HttpClient())
+            {
+                using (var response = await httpClient.GetAsync($"{_restpath}/{id}"))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    t = JsonConvert.DeserializeObject<TrenerVM>(apiResponse);
+                }
+            }
+
+            return View(t);
         }
 
         // POST: TrenerzyController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        [ActionName("Delete")]
+        public async Task<ActionResult> DeletePost(int id)
         {
+            string _restpath = GetApiUrl().Content + CN();
+
             try
             {
-                return RedirectToAction(nameof(Index));
+                using (var httpClient = new HttpClient())
+                {
+                    await httpClient.DeleteAsync($"{_restpath}/{id}");
+                }
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
+                return View("Error", ex);
             }
+            return RedirectToAction(nameof(Index));
         }
     }
 }
