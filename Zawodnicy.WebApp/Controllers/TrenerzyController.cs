@@ -79,24 +79,45 @@ namespace Zawodnicy.WebApp.Controllers
         }
 
         // GET: TrenerzyController/Edit/5
-        public ActionResult Edit(int id)
+        public async Task<ActionResult> Edit(int id)
         {
-            return View();
+            string _restpath = GetApiUrl().Content + CN();
+            TrenerVM t = new TrenerVM();
+
+            using (var httpClient = new HttpClient())
+            {
+                using (var response = await httpClient.GetAsync($"{_restpath}/{id}"))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    t = JsonConvert.DeserializeObject<TrenerVM>(apiResponse);
+                }
+            }
+
+            return View(t);
         }
 
         // POST: TrenerzyController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public async Task<ActionResult> Edit(TrenerVM t)
         {
+            string _restpath = GetApiUrl().Content + CN();
+
             try
             {
-                return RedirectToAction(nameof(Index));
+                using (var httpClient = new HttpClient())
+                {
+                    string zawodnikJson = System.Text.Json.JsonSerializer.Serialize(t);
+                    var content = new StringContent(zawodnikJson, Encoding.UTF8, "application/json");
+
+                    await httpClient.PutAsync($"{_restpath}/{t.Id}", content);
+                }
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
+                return View("Error", ex);
             }
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: TrenerzyController/Delete/5
