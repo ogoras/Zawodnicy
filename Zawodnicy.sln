@@ -12,6 +12,9 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zawodnicy.Test", "Zawodnicy.Test\Zawodnicy.Test.csproj", "{428A885A-4F5B-444A-8CF8-0E709412153E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zawodnicy.WebApp", "Zawodnicy.WebApp\Zawodnicy.WebApp.csproj", "{7AE0677D-C683-4B20-8EDA-65767852CBE7}"
+	ProjectSection(ProjectDependencies) = postProject
+		{14845C61-3485-4848-B036-66BADB7759C8} = {14845C61-3485-4848-B036-66BADB7759C8}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
