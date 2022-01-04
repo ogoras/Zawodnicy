@@ -17,6 +17,7 @@ namespace Zawodnicy.Infrastructure.Repositories
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<Zawodnik>()
                 .HasOne(p => p.Trener)
                 .WithMany();
