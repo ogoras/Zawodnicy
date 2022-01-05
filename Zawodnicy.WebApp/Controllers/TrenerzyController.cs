@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -12,6 +13,7 @@ using Zawodnicy.WebApp.Models;
 
 namespace Zawodnicy.WebApp.Controllers
 {
+    [Authorize(Roles = "admin")]
     public class TrenerzyController : Controller
     {
         public IConfiguration Configuration;
