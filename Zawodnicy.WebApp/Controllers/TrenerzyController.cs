@@ -1,13 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 using Zawodnicy.WebApp.Models;
 
@@ -35,11 +39,14 @@ namespace Zawodnicy.WebApp.Controllers
         // GET: TrenerzyController
         public async Task<ActionResult> Index()
         {
+            var tokenString = GenerateJSONWebToken();
+
             string _restpath = GetApiUrl().Content + CN();
             List<TrenerVM> trenerzyList = new List<TrenerVM>();
 
             using (var httpClient = new HttpClient())
             {
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", tokenString);
                 using (var response = await httpClient.GetAsync(_restpath))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
@@ -48,6 +55,28 @@ namespace Zawodnicy.WebApp.Controllers
             }
 
             return View(trenerzyList);
+        }
+
+        private string GenerateJSONWebToken()
+        {
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("pass123"));
+            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+
+            var claims = new[]
+            {
+                new Claim("Name", "Szymon"),
+                new Claim(JwtRegisteredClaimNames.Email, "      "),
+            };
+
+            var token = new JwtSecurityToken(
+                issuer: "kuss",
+                audience: "kuss",
+                expires: DateTime.Now.AddHours(3),
+                signingCredentials: credentials,
+                claims: claims
+                );
+
+            return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
         // GET: TrenerzyController/Create
