@@ -51,5 +51,9 @@ namespace Zawodnicy.WebApp.Controllers
             return View(loginVM);
         }
 
+        public IActionResult Register()
+        {
+            return View(new LoginVM());
+        }
     }
 }
