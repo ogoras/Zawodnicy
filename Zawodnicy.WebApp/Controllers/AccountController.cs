@@ -55,5 +55,25 @@ namespace Zawodnicy.WebApp.Controllers
         {
             return View(new LoginVM());
         }
+
+        //Rejestracja POST
+        //Nie wymagająca podania ConfirmPassword 
+        [HttpPost]
+        public async Task<IActionResult> Register(LoginVM loginVM)
+        {
+            if (ModelState.IsValid) //wprowadzone wartości logowania zgodne z walidacją; ModelState-model predefiniowany
+            {
+                var user = new IdentityUser() { UserName = loginVM.Username };
+                var result = await _userManager.CreateAsync(user, loginVM.Password);
+
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("Index", "Home"); //(metoda, controller)
+                }
+            }
+
+            return View(loginVM);
+        }
+
     }
 }
