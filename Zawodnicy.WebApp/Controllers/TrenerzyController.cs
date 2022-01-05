@@ -59,7 +59,7 @@ namespace Zawodnicy.WebApp.Controllers
 
         private string GenerateJSONWebToken()
         {
-            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("pass123"));
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("pass123456789123456789"));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
             var claims = new[]

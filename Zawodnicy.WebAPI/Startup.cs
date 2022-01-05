@@ -60,7 +60,7 @@ namespace Zawodnicy.WebAPI
                     ValidateAudience = true,
                     ValidAudience = "kuss",
                     ValidIssuer = "kuss",
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("pass123"))
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("pass123456789123456789"))
                 };
             });
         }
