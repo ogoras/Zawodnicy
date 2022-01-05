@@ -91,11 +91,13 @@ namespace Zawodnicy.WebApp.Controllers
         public async Task<ActionResult> Create(TrenerVM t)
         {
             string _restpath = GetApiUrl().Content + CN();
+            var tokenString = GenerateJSONWebToken();
 
             try
             {
                 using (var httpClient = new HttpClient())
                 {
+                    httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", tokenString);
                     string zawodnikJson = System.Text.Json.JsonSerializer.Serialize(t);
                     var content = new StringContent(zawodnikJson, Encoding.UTF8, "application/json");
 
@@ -112,11 +114,13 @@ namespace Zawodnicy.WebApp.Controllers
         // GET: TrenerzyController/Edit/5
         public async Task<ActionResult> Edit(int id)
         {
+            var tokenString = GenerateJSONWebToken();
             string _restpath = GetApiUrl().Content + CN();
             TrenerVM t = new TrenerVM();
 
             using (var httpClient = new HttpClient())
             {
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", tokenString);
                 using (var response = await httpClient.GetAsync($"{_restpath}/{id}"))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
@@ -132,12 +136,14 @@ namespace Zawodnicy.WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit(TrenerVM t)
         {
+            var tokenString = GenerateJSONWebToken();
             string _restpath = GetApiUrl().Content + CN();
 
             try
             {
                 using (var httpClient = new HttpClient())
                 {
+                    httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", tokenString);
                     string zawodnikJson = System.Text.Json.JsonSerializer.Serialize(t);
                     var content = new StringContent(zawodnikJson, Encoding.UTF8, "application/json");
 
@@ -154,11 +160,13 @@ namespace Zawodnicy.WebApp.Controllers
         // GET: TrenerzyController/Delete/5
         public async Task<ActionResult> Delete(int id)
         {
+            var tokenString = GenerateJSONWebToken();
             string _restpath = GetApiUrl().Content + CN();
             TrenerVM t = new TrenerVM();
 
             using (var httpClient = new HttpClient())
             {
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", tokenString);
                 using (var response = await httpClient.GetAsync($"{_restpath}/{id}"))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
@@ -175,12 +183,14 @@ namespace Zawodnicy.WebApp.Controllers
         [ActionName("Delete")]
         public async Task<ActionResult> DeletePost(int id)
         {
+            var tokenString = GenerateJSONWebToken();
             string _restpath = GetApiUrl().Content + CN();
 
             try
             {
                 using (var httpClient = new HttpClient())
                 {
+                    httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", tokenString);
                     await httpClient.DeleteAsync($"{_restpath}/{id}");
                 }
             }
